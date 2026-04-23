@@ -60,6 +60,7 @@ function Designer() {
   const [automations, setAutomations] = useState<AutomationDefinition[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(initialNodes[0].id);
   const [simulation, setSimulation] = useState<SimulationResponse | null>(null);
+  const [simulationError, setSimulationError] = useState<string | null>(null);
   const [isRunning, setIsRunning] = useState(false);
 
   useEffect(() => {
@@ -145,12 +146,20 @@ function Designer() {
     setEdges((current) => current.filter((edge) => edge.source !== nodeId && edge.target !== nodeId));
     setSelectedId(null);
     setSimulation(null);
+    setSimulationError(null);
   };
 
   const runSimulation = async () => {
     setIsRunning(true);
-    setSimulation(await simulateWorkflow(nodes, edges));
-    setIsRunning(false);
+    setSimulation(null);
+    setSimulationError(null);
+    try {
+      setSimulation(await simulateWorkflow(nodes, edges));
+    } catch (error) {
+      setSimulationError(error instanceof Error ? error.message : 'Simulation failed unexpectedly.');
+    } finally {
+      setIsRunning(false);
+    }
   };
 
   const exportWorkflow = () => {
@@ -218,6 +227,7 @@ function Designer() {
         nodes={nodes}
         edges={edges}
         simulation={simulation}
+        simulationError={simulationError}
         isRunning={isRunning}
         onSimulate={runSimulation}
         onExport={exportWorkflow}

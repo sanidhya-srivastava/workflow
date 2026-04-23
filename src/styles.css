@@ -381,6 +381,32 @@ button {
   color: #667386;
 }
 
+.timeline__summary,
+.timeline__error {
+  border-radius: 8px;
+  font-weight: 800;
+  line-height: 1.35;
+  padding: 10px;
+}
+
+.timeline__summary--success {
+  background: #edfdf7;
+  border: 1px solid #a7e8d0;
+  color: #08715a;
+}
+
+.timeline__summary--warning {
+  background: #fff8e6;
+  border: 1px solid #eed28c;
+  color: #7a5200;
+}
+
+.timeline__error {
+  background: #fff0f2;
+  border: 1px solid #e1a5b1;
+  color: #a42236;
+}
+
 .timeline__warning {
   background: #fff8e6;
   border: 1px solid #eed28c;
